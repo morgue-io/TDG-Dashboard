@@ -1,5 +1,5 @@
-# Himalayan-Treks-Dashboard
-Admin dashboard for the Himalayan Treks website
+# The-Dhobi-Ghat Dashboard
+Administrator's dashboard for The Dhobi Ghat project
 
 ## Login screen
 ![Login](https://cdn.discordapp.com/attachments/841538439606304818/1011532447067938957/Screenshot_from_2022-08-23_12-37-35.png)
