@@ -3,23 +3,64 @@ import axios from 'axios';
 import ContentBar from './contentDivBar';
 import '../styles/form-view.css';
 import '../styles/content-div.css';
+import { useNavigate } from 'react-router-dom';
 
 function Orders() {
+  const navigate = useNavigate();
   const [ordersDataState, setOrdersDataState] = useState([]);
-  const [isLoadingState, setIsLoadingState] = useState();
+  const [isLoadingState, setIsLoadingState] = useState(false);
+
+  const getNewToken = async () => {
+    var res;
+    try {
+      console.log('getting new token')
+      res = await axios({
+        url: 'http://localhost:4000/api/v1/adm/token',
+        method: 'get',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('jwt_refresh')}`
+        }
+      });
+    } catch (e) {
+      if (e.response.status === 500) {
+        alert('Session timed out. Login again to continue.');
+        return navigate('/');
+      }
+    }
+    localStorage.setItem('jwt', res.data.jwt);
+    localStorage.setItem('jwt_refresh', res.data.jwt_refresh);
+    console.log('got new token');
+  };
 
   const reload = async () => {
-    setIsLoadingState(true);
-    const res = await axios({
-      url: 'http://localhost:4000/api/v1/adm/orders',
-      method: 'get',
-      headers: {
-        Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzM3OTU0ZTE3NWZhYzkzNmVkODI0NjgiLCJlbWFpbCI6IjY4QDY4LjY4IiwiaWF0IjoxNjY0NjA0OTM1LCJleHAiOjE2NjU1MDQ5MzV9.uxbKJtimisSMyyMPooSs9Z2kGtlr_lw2rBEJ5YS8X0g"
+    try {
+      setIsLoadingState(true);
+
+      const req = {
+        url: 'http://localhost:4000/api/v1/adm/orders',
+        method: 'get',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('jwt')}`
+        }
+      };
+
+      var res;
+      try {
+        res = await axios(req);
+      } catch (e) {
+        console.log(e);
+        if (e.response.status === 400) {
+          await getNewToken();
+          req.headers.Authorization = `Bearer ${localStorage.getItem('jwt')}`;
+          res = await axios(req);
+        }
       }
-    });
-    console.log(res)
-    setIsLoadingState(false);
-    setOrdersDataState(res.data.payload);
+
+      setIsLoadingState(false);
+      setOrdersDataState(res.data.payload);
+    } catch (e) {
+      alert("Couldn't refresh list :(");
+    }
   };
 
   const [updateFormDataState, setUpdateFormDataState] = useState({});
@@ -50,16 +91,27 @@ function Orders() {
 
   };
 
-  const updateFormSave = async () => {
+  const updateFormDataSave = async () => {
     try {
-      await axios({
+      const req = {
         url: `http://localhost:4000/api/v1/adm/orders?id=${updateFormDataState._id}`,
         method: 'post',
         data: updateFormDataState,
         headers: {
-          Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzM3OTU0ZTE3NWZhYzkzNmVkODI0NjgiLCJlbWFpbCI6IjY4QDY4LjY4IiwiaWF0IjoxNjY0NjA0OTM1LCJleHAiOjE2NjU1MDQ5MzV9.uxbKJtimisSMyyMPooSs9Z2kGtlr_lw2rBEJ5YS8X0g"
+          Authorization: `Bearer ${localStorage.getItem('jwt')}`
         }
-      });
+      };
+
+      try {
+        await axios(req);
+      } catch (e) {
+        if (e.response.status === 400) {
+          await getNewToken();
+          req.headers.Authorization = `Bearer ${localStorage.getItem('jwt')}`;
+          await axios(req);
+        }
+      }
+
       reload();
     } catch {
       alert('Update failed :(');
@@ -79,15 +131,15 @@ function Orders() {
             <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>Customer ID</span></div>
             <input type='text' onChange={handleUpdateFormChange} value={item.customer} name='customer' style={{ width: '100%', marginTop: '3px', resize: 'vertical', height: '20px', fontFamily: 'Fira Mono' }} disabled /><br /><br />
             <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>Customer address</span></div>
-            <textarea name='address' onChange={handleUpdateFormChange} style={{ width: '100%', marginTop: '3px', resize: 'vertical', minHeight: '50px', fontFamily: 'Fira Mono' }} disabled>{item.address}</textarea><br /><br />
+            <textarea name='address' onChange={handleUpdateFormChange} style={{ width: '100%', marginTop: '3px', resize: 'vertical', minHeight: '50px', fontFamily: 'Fira Mono' }} defaultValue={item.address} disabled /><br /><br />
             <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>Todo</span></div>
-            <textarea onChange={handleUpdateFormChange} name='todo' style={{ width: '100%', minHeight: '200px', marginTop: '3px', resize: 'vertical', height: '20px', fontFamily: 'Fira Mono' }} disabled>{JSON.stringify(item.todo, null, 4)}</textarea><br /><br />
+            <textarea onChange={handleUpdateFormChange} name='todo' style={{ width: '100%', minHeight: '200px', marginTop: '3px', resize: 'vertical', height: '20px', fontFamily: 'Fira Mono' }} defaultValue={JSON.stringify(item.todo, null, 4)} disabled /><br /><br />
             <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>Order status</span></div>
-            <textarea onChange={handleUpdateFormChange} name='status' style={{ width: '100%', minHeight: '200px', marginTop: '3px', resize: 'vertical', height: '20px', fontFamily: 'Fira Mono' }}>{JSON.stringify(item.status, null, 4)}</textarea><br /><br />
+            <textarea onChange={handleUpdateFormChange} name='status' style={{ width: '100%', minHeight: '200px', marginTop: '3px', resize: 'vertical', height: '20px', fontFamily: 'Fira Mono' }} defaultValue={JSON.stringify(item.status, null, 4)} /><br /><br />
             <div style={{ display: 'flex', flexDirection: 'row' }}>
               <div><button className='db-button button-cancel' onClick={() => { setUpdateFormViewState(false); setUpdateFormDataState({}); }}><b>Cancel</b></button></div>
               <div style={{ flex: '1 1 auto' }} />
-              <div><button className='db-button button-update' onClick={async () => { await updateFormSave(); setUpdateFormViewState(false); setUpdateFormDataState({}); }}><b>Save</b></button></div>
+              <div><button type='button' className='db-button button-update' onClick={async () => { updateFormDataSave(); setUpdateFormViewState(false); }}><b>Save</b></button></div>
             </div>
           </form>
         </div>
@@ -119,19 +171,33 @@ function Orders() {
   }, []);
 
   useEffect(() => {
-    (async () => {
+    async function deed() {
       setIsLoadingState(true);
-      const res = await axios({
+
+      const req = {
         url: 'http://localhost:4000/api/v1/adm/orders',
         method: 'get',
         headers: {
-          Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzM3OTU0ZTE3NWZhYzkzNmVkODI0NjgiLCJlbWFpbCI6IjY4QDY4LjY4IiwiaWF0IjoxNjY0NjA0OTM1LCJleHAiOjE2NjU1MDQ5MzV9.uxbKJtimisSMyyMPooSs9Z2kGtlr_lw2rBEJ5YS8X0g"
+          Authorization: `Bearer ${localStorage.getItem('jwt')}`
         }
-      });
-      console.log(res.data.payload)
+      };
+
+      var res;
+      try {
+        res = await axios(req);
+      } catch (e) {
+        console.log(e);
+        if (e.response.status === 400) {
+          await getNewToken();
+          req.headers.Authorization = `Bearer ${localStorage.getItem('jwt')}`;
+          res = await axios(req);
+        }
+      }
+
       setOrdersDataState(res.data.payload);
       setIsLoadingState(false);
-    })();
+    };
+    deed();
   }, []);
 
   return (
@@ -145,7 +211,7 @@ function Orders() {
       <div id='db-box' className='content-font-header-2 content-div-indent' style={{ borderRadius: '10px', backgroundColor: 'white', overflow: 'auto', borders: '1px solid', bordersColor: '#c6c6c6' }}>
         Database Entries: ({isLoadingState ? 'Loading...' : ordersDataState.length})<br /><br />
         {ordersDataState.map((item) => <>
-          <div className='item-box'>
+          <div key={item._id} className='item-box'>
             <div className='table'>
               <div className='table-row'>
                 <div className='table-cell'>
