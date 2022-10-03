@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import AllTreks from '../components/allTreks';
-import DiscountedTreks from '../components/discountedTreks';
-import Camping from '../components/camping';
-import Blogs from '../components/blogs';
-import Bookings from '../components/queries';
+import Employees from '../components/employees';
+import Orders from '../components/orders';
+import Admins from '../components/admins';
+import Billboard from '../components/billboard';
+import Profile from '../components/adminProfile';
 import '../styles/content-div.css';
 
 function ContentDiv() {
@@ -29,11 +29,11 @@ function ContentDiv() {
   return (
     <div id='main-content-div'>
       <Routes>
-        <Route path='/all-treks' element={<AllTreks />} />
-        <Route path='/discounted-treks' element={<DiscountedTreks />} />
-        <Route path='/camping' element={<Camping />} />
-        <Route path='/blogs' element={<Blogs />} />
-        <Route path='/bookings' element={<Bookings />} />
+        <Route path='/orders' element={<Orders />} />
+        <Route path='/employees' element={<Employees />} />
+        <Route path='/administrators' element={<Admins />} />
+        <Route path='/billboard' element={<Billboard />} />
+        <Route path='/profile' element={<Profile />} />
       </Routes>
     </div>
   );

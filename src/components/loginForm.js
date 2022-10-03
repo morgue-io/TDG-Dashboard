@@ -21,19 +21,27 @@ function LoginForm() {
     });
   };
 
+
   const onClickLoginBtn = async () => {
     try {
-      const res = await axios({
+      const req = {
         method: 'post',
-        url: 'https://himalyan-explorations.herokuapp.com/api/login',
-        params: {
+        url: 'https://tdg-api.onrender.com/api/v1/adm/login',
+        data: {
           email: formData.username,
-          password: formData.password
+          password: await require('buffer').Buffer.from(formData.password, 'utf8').toString('hex')
         }
-      });
-      if (res.status === 200)
+      };
+
+      const res = await axios(req);
+      if (res.status === 200) {
+        console.log('Logged in')
+        localStorage.setItem('jwt', res.data.jwt);
+        localStorage.setItem('jwt_refresh', res.data.jwt_refresh);
         navigate('/dashboard');
+      }
     } catch (e) {
+      console.log(e);
       setInvCredState(true);
     }
   };

@@ -15,7 +15,7 @@ function Orders() {
     try {
       console.log('getting new token')
       res = await axios({
-        url: 'http://localhost:4000/api/v1/adm/token',
+        url: 'https://tdg-api.onrender.com/api/v1/adm/token',
         method: 'get',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('jwt_refresh')}`
@@ -37,7 +37,7 @@ function Orders() {
       setIsLoadingState(true);
 
       const req = {
-        url: 'http://localhost:4000/api/v1/adm/orders',
+        url: 'https://tdg-api.onrender.com/api/v1/adm/orders',
         method: 'get',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('jwt')}`
@@ -88,13 +88,12 @@ function Orders() {
         [event.target.name]: event.target.value
       });
     }
-
   };
 
   const updateFormDataSave = async () => {
     try {
       const req = {
-        url: `http://localhost:4000/api/v1/adm/orders?id=${updateFormDataState._id}`,
+        url: `https://tdg-api.onrender.com/api/v1/adm/orders?id=${updateFormDataState._id}`,
         method: 'post',
         data: updateFormDataState,
         headers: {
@@ -175,7 +174,7 @@ function Orders() {
       setIsLoadingState(true);
 
       const req = {
-        url: 'http://localhost:4000/api/v1/adm/orders',
+        url: 'https://tdg-api.onrender.com/api/v1/adm/orders',
         method: 'get',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('jwt')}`

@@ -4,22 +4,19 @@ import SMenuItem from '../components/selectableMenuItem';
 import '../styles/selectable-menu.css';
 
 function SelectableMenu(props) {
-  const [selectedMenu, setSelectedMenuState] = useState('edit-users-btn');
+  const [selectedMenu, setSelectedMenuState] = useState();
 
   // dashSelectables & dashSelectableItems must describe the same components
-  const dashSelectablesList = ['all-treks-btn', 'discounted-treks-btn', 'camping-btn', 'blogs-btn', 'booking-btn'];
+  const dashSelectablesList = ['orders-btn', 'employees-btn', 'admins-btn', 'billboard-btn'];
   const dashSelectables = () => <>
-    <SMenuItem id='all-treks-btn' icon='landscape' label='Treks' isInvoked={selectedMenu === 'all-treks-btn' ? 'true' : 'false'} onClickCallback={() => onClickThisBtn('all-treks-btn')} />
-    <SMenuItem id='discounted-treks-btn' icon='percent' label='Discounted treks' isInvoked={selectedMenu === 'discounted-treks-btn' ? 'true' : 'false'} onClickCallback={() => onClickThisBtn('discounted-treks-btn')} />
-    <SMenuItem id='camping-btn' icon='camping' label='Camping' isInvoked={selectedMenu === 'camping-btn' ? 'true' : 'false'} onClickCallback={() => onClickThisBtn('camping-btn')} />
-    <SMenuItem id='blogs-btn' icon='newspaper' label='Blogs' isInvoked={selectedMenu === 'blogs-btn' ? 'true' : 'false'} onClickCallback={() => onClickThisBtn('blogs-btn')} />
-    <SMenuItem id='booking-btn' icon='hotel' label='Bookings' isInvoked={selectedMenu === 'booking-btn' ? 'true' : 'false'} onClickCallback={() => onClickThisBtn('booking-btn')} />
+    <SMenuItem id='orders-btn' icon='local_mall' label='Orders' isInvoked={selectedMenu === 'orders-btn' ? 'true' : 'false'} onClickCallback={() => onClickThisBtn('orders-btn')} />
+    <SMenuItem id='employees-btn' icon='badge' label='Employees' isInvoked={selectedMenu === 'employees-btn' ? 'true' : 'false'} onClickCallback={() => onClickThisBtn('employees-btn')} />
+    <SMenuItem id='admins-btn' icon='admin_panel_settings' label='Administrators' isInvoked={selectedMenu === 'admins-btn' ? 'true' : 'false'} onClickCallback={() => onClickThisBtn('admins-btn')} />
+    <SMenuItem id='billboard-btn' icon='receipt_long' label='Billboard' isInvoked={selectedMenu === 'billboard-btn' ? 'true' : 'false'} onClickCallback={() => onClickThisBtn('billboard-btn')} />
   </>;
 
-  const profSelectablesList = ['edit-users-btn', 'ch-username-btn', 'ch-pwd-btn'];
+  const profSelectablesList = ['ch-pwd-btn'];
   const profSelectables = () => <>
-    <SMenuItem id='edit-users-btn' icon='lock' label='Edit users' isInvoked={selectedMenu === 'edit-users-btn' ? 'true' : 'false'} onClickCallback={() => onClickThisBtn('edit-users-btn')} />
-    <SMenuItem id='ch-username-btn' icon='lock' label='Change username' isInvoked={selectedMenu === 'ch-username-btn' ? 'true' : 'false'} onClickCallback={() => onClickThisBtn('ch-username-btn')} />
     <SMenuItem id='ch-pwd-btn' icon='lock' label='Change password' isInvoked={selectedMenu === 'ch-pwd-btn' ? 'true' : 'false'} onClickCallback={() => onClickThisBtn('ch-pwd-btn')} />
   </>;
 
@@ -30,37 +27,28 @@ function SelectableMenu(props) {
   const onClickThisBtn = async (thisBtn) => {
     if (dashSelectablesList.includes(thisBtn)) {
       await setSelectableMenuVarState(<>
-        <SMenuItem id='all-treks-btn' icon='landscape' label='Treks' isInvoked={thisBtn === 'all-treks-btn' ? 'true' : 'false'} onClickCallback={() => onClickThisBtn('all-treks-btn')} />
-        <SMenuItem id='discounted-treks-btn' icon='percent' label='Discounted treks' isInvoked={thisBtn === 'discounted-treks-btn' ? 'true' : 'false'} onClickCallback={() => onClickThisBtn('discounted-treks-btn')} />
-        <SMenuItem id='camping-btn' icon='camping' label='Camping' isInvoked={thisBtn === 'camping-btn' ? 'true' : 'false'} onClickCallback={() => onClickThisBtn('camping-btn')} />
-        <SMenuItem id='blogs-btn' icon='newspaper' label='Blogs' isInvoked={thisBtn === 'blogs-btn' ? 'true' : 'false'} onClickCallback={() => onClickThisBtn('blogs-btn')} />
-        <SMenuItem id='booking-btn' icon='hotel' label='Bookings' isInvoked={thisBtn === 'booking-btn' ? 'true' : 'false'} onClickCallback={() => onClickThisBtn('booking-btn')} />
+        <SMenuItem id='orders-btn' icon='local_mall' label='Orders' isInvoked={thisBtn === 'orders-btn' ? 'true' : 'false'} onClickCallback={() => onClickThisBtn('orders-btn')} />
+        <SMenuItem id='employees-btn' icon='badge' label='Employees' isInvoked={thisBtn === 'employees-btn' ? 'true' : 'false'} onClickCallback={() => onClickThisBtn('employees-btn')} />
+        <SMenuItem id='admins-btn' icon='admin_panel_settings' label='Administrators' isInvoked={thisBtn === 'admins-btn' ? 'true' : 'false'} onClickCallback={() => onClickThisBtn('admins-btn')} />
+        <SMenuItem id='billboard-btn' icon='receipt_long' label='Billboard' isInvoked={thisBtn === 'billboard-btn' ? 'true' : 'false'} onClickCallback={() => onClickThisBtn('billboard-btn')} />
       </>);
-      (thisBtn === 'all-treks-btn') ?
-        (() => { navigate('/dashboard/all-treks'); setSelectedMenuState('all-treks-btn') })() :
-        (thisBtn === 'discounted-treks-btn') ?
-          (() => { navigate('/dashboard/discounted-treks'); setSelectedMenuState('discounted-treks-btn') })() :
-          (thisBtn === 'camping-btn') ?
-            (() => { navigate('/dashboard/camping'); setSelectedMenuState('camping-btn') })() :
-            (thisBtn === 'blogs-btn') ?
-              (() => { navigate('/dashboard/blogs'); setSelectedMenuState('blogs-btn'); })() :
-              (thisBtn === 'booking-btn') ?
-                (() => { navigate('/dashboard/bookings'); setSelectedMenuState('booking-btn'); })() :
-                console.error('Invalid button: ', thisBtn);
+      (thisBtn === 'orders-btn') ?
+        (() => { navigate('/dashboard/orders'); setSelectedMenuState('orders-btn') })() :
+        (thisBtn === 'employees-btn') ?
+          (() => { navigate('/dashboard/employees'); setSelectedMenuState('employees-btn') })() :
+          (thisBtn === 'admins-btn') ?
+            (() => { navigate('/dashboard/administrators'); setSelectedMenuState('administrators-btn') })() :
+            (thisBtn === 'billboard-btn') ?
+              (() => { navigate('/dashboard/billboard'); setSelectedMenuState('billboard-btn') })() :
+              console.error('invalid button');
     }
     else if (profSelectablesList.includes(thisBtn)) {
       await setSelectableMenuVarState(<>
-        <SMenuItem id='edit-users-btn' icon='lock' label='Edit users' isInvoked={thisBtn === 'edit-users-btn' ? 'true' : 'false'} onClickCallback={() => onClickThisBtn('edit-users-btn')} />
-        <SMenuItem id='ch-username-btn' icon='lock' label='Change username' isInvoked={thisBtn === 'ch-username-btn' ? 'true' : 'false'} onClickCallback={() => onClickThisBtn('ch-username-btn')} />
         <SMenuItem id='ch-pwd-btn' icon='lock' label='Change password' isInvoked={thisBtn === 'ch-pwd-btn' ? 'true' : 'false'} onClickCallback={() => onClickThisBtn('ch-pwd-btn')} />
       </>);
-      (thisBtn === 'edit-users-btn') ?
-        (() => { navigate('/profile/edit-users'); setSelectedMenuState('edit-users-btn') })() :
-        (thisBtn === 'ch-pwd-btn') ?
-          (() => { navigate('/profile/change-password'); setSelectedMenuState('ch-pwd-btn'); })() :
-          (thisBtn === 'ch-username-btn') ?
-            (() => { navigate('/profile/change-username'); setSelectedMenuState('ch-username-btn'); })() :
-            console.error('Invalid button: ', thisBtn);
+      (thisBtn === 'ch-pwd-btn') ?
+        (() => { navigate('/dashboard/profile'); setSelectedMenuState('ch-pwd-btn'); })() :
+        console.error('Invalid button: ', thisBtn);
     }
   };
 
