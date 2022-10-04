@@ -156,13 +156,13 @@ function Orders() {
           .replace('px', '')
       );
 
-      const contentBarHeight = parseInt(
+      const contentBarHeight = () => parseInt(
         window.getComputedStyle(document.getElementById('content-div-bar'), null)['height']
           .replace('px', '')
       );
       x.style.width = `${window.innerWidth - sidePanelWidth - 2 * 40}px`;
-      y.style.height = `${window.innerHeight - 120 - contentBarHeight}px`;
-      y.style.marginTop = `${contentBarHeight + 60}px`
+      y.style.height = `${window.innerHeight - 120 - contentBarHeight()}px`;
+      y.style.marginTop = `${contentBarHeight() + 60}px`
     };
     window.addEventListener('resize', adjustContentDivWidth);
     // initial rendering after DOM Loads
@@ -207,7 +207,7 @@ function Orders() {
           sub='An enumeration of all orders from customers'
         />
       </div>
-      <div id='db-box' className='content-font-header-2 content-div-indent' style={{ borderRadius: '10px', backgroundColor: 'white', overflow: 'auto', borders: '1px solid', bordersColor: '#c6c6c6' }}>
+      <div id='db-box' className='content-font-header-2 content-div-indent' style={{ borderRadius: '10px', backgroundColor: 'white', overflow: 'auto', border: '1px solid', borderColor: '#c6c6c6' }}>
         Database Entries: ({isLoadingState ? 'Loading...' : ordersDataState.length})<br /><br />
         {ordersDataState.map((item) => <>
           <div key={item._id} className='item-box'>

@@ -146,7 +146,7 @@ function Employees() {
             <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }} disabled>Employee ID</span></div>
             <input type='text' onChange={handleUpdateFormChange} name='_id' value={item._id} style={{ width: '100%', marginTop: '3px', resize: 'vertical', height: '20px', fontFamily: 'Fira Mono' }} disabled /><br /><br />
             <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>Service access</span></div>
-            <select name='is_activated' style={{ width: '100%', marginTop: '3px', resize: 'vertical', height: '25px', fontFamily: 'Fira Mono' }} onChange={handleUpdateFormChange}>
+            <select name='is_activated' value={item.meta.is_activated ? 'TRUE' : 'FALSE'} style={{ width: '100%', marginTop: '3px', resize: 'vertical', height: '25px', fontFamily: 'Fira Mono' }} onChange={handleUpdateFormChange}>
               <option value='TRUE' style={{ color: 'green', fontWeight: '700' }}>TRUE</option>
               <option value='FALSE' style={{ color: 'red', fontWeight: '700' }}>FALSE</option>
             </select>
@@ -248,13 +248,13 @@ function Employees() {
           .replace('px', '')
       );
 
-      const contentBarHeight = parseInt(
+      const contentBarHeight = () => parseInt(
         window.getComputedStyle(document.getElementById('content-div-bar'), null)['height']
           .replace('px', '')
       );
       x.style.width = `${window.innerWidth - sidePanelWidth - 2 * 40}px`;
-      y.style.height = `${window.innerHeight - 120 - contentBarHeight}px`;
-      y.style.marginTop = `${contentBarHeight + 60}px`
+      y.style.height = `${window.innerHeight - 120 - contentBarHeight()}px`;
+      y.style.marginTop = `${contentBarHeight() + 60}px`
     };
     window.addEventListener('resize', adjustContentDivWidth);
     // initial rendering after DOM Loads

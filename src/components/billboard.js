@@ -135,13 +135,13 @@ function Billboard() {
           .replace('px', '')
       );
 
-      const contentBarHeight = parseInt(
+      const contentBarHeight = () => parseInt(
         window.getComputedStyle(document.getElementById('content-div-bar'), null)['height']
           .replace('px', '')
       );
       x.style.width = `${window.innerWidth - sidePanelWidth - 2 * 40}px`;
-      y.style.height = `${window.innerHeight - 120 - contentBarHeight}px`;
-      y.style.marginTop = `${contentBarHeight + 60}px`
+      y.style.height = `${window.innerHeight - 120 - contentBarHeight()}px`;
+      y.style.marginTop = `${contentBarHeight() + 60}px`
     };
     window.addEventListener('resize', adjustContentDivWidth);
     // initial rendering after DOM Loads
