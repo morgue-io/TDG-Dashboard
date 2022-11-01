@@ -15,7 +15,7 @@ function Employees() {
     try {
       console.log('getting new token')
       res = await axios({
-        url: 'https://tdg-api.onrender.com/api/v1/adm/token',
+        url: 'https://thedhobighat.co.in/api/v1/adm/token',
         method: 'get',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('jwt_refresh')}`
@@ -36,7 +36,7 @@ function Employees() {
     try {
       setIsLoadingState(true);
       const req = {
-        url: 'https://tdg-api.onrender.com/api/v1/adm/employee-view',
+        url: 'https://thedhobighat.co.in/api/v1/adm/employee-view',
         method: 'get',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('jwt')}`
@@ -65,7 +65,7 @@ function Employees() {
   const deleteItem = async (id) => {
     if (window.confirm('Are you sure you want to delete this item from the database?')) {
       var req = {
-        url: `https://tdg-api.onrender.com/api/v1/adm/employee-view?id=${id}`,
+        url: `https://thedhobighat.co.in/api/v1/adm/employee-view?id=${id}`,
         method: 'delete',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('jwt')}`
@@ -111,7 +111,7 @@ function Employees() {
   const updateFormDataSave = async () => {
     try {
       const req = {
-        url: `https://tdg-api.onrender.com/api/v1/adm/employee-view?id=${updateFormDataState._id}`,
+        url: `https://thedhobighat.co.in/api/v1/adm/employee-view?id=${updateFormDataState._id}`,
         method: 'post',
         data: updateFormDataState,
         headers: {
@@ -183,7 +183,7 @@ function Employees() {
     try {
       console.log(newFormDataState);
       const req = {
-        url: `https://tdg-api.onrender.com/api/v1/adm/employee-view`,
+        url: `https://thedhobighat.co.in/api/v1/adm/employee-view`,
         method: 'post',
         data: {
           ...newFormDataState,
@@ -266,7 +266,7 @@ function Employees() {
       setIsLoadingState(true);
 
       const req = {
-        url: 'https://tdg-api.onrender.com/api/v1/adm/employee-view',
+        url: 'https://thedhobighat.co.in/api/v1/adm/employee-view',
         method: 'get',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('jwt')}`

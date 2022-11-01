@@ -26,7 +26,7 @@ function LoginForm() {
     try {
       const req = {
         method: 'post',
-        url: 'https://tdg-api.onrender.com/api/v1/adm/login',
+        url: 'https://thedhobighat.co.in/api/v1/adm/login',
         data: {
           email: formData.username,
           password: await require('buffer').Buffer.from(formData.password, 'utf8').toString('hex')

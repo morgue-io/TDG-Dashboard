@@ -15,7 +15,7 @@ function Billboard() {
     try {
       console.log('getting new token')
       res = await axios({
-        url: 'https://tdg-api.onrender.com/api/v1/adm/token',
+        url: 'https://thedhobighat.co.in/api/v1/adm/token',
         method: 'get',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('jwt_refresh')}`
@@ -36,7 +36,7 @@ function Billboard() {
     try {
       setIsLoadingState(true);
       const req = {
-        url: 'https://tdg-api.onrender.com/api/v1/adm/billboard',
+        url: 'https://thedhobighat.co.in/api/v1/adm/billboard',
         method: 'get',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('jwt')}`
@@ -92,7 +92,7 @@ function Billboard() {
   const updateFormDataSave = async () => {
     try {
       const req = {
-        url: `https://tdg-api.onrender.com/api/v1/adm/billboard`,
+        url: `https://thedhobighat.co.in/api/v1/adm/billboard`,
         method: 'post',
         data: updateFormDataState,
         headers: {
@@ -210,7 +210,7 @@ function Billboard() {
       setIsLoadingState(true);
 
       const req = {
-        url: 'https://tdg-api.onrender.com/api/v1/adm/billboard',
+        url: 'https://thedhobighat.co.in/api/v1/adm/billboard',
         method: 'get',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('jwt')}`

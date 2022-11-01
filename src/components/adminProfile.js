@@ -12,7 +12,7 @@ function Profile() {
     try {
       console.log('getting new token')
       res = await axios({
-        url: 'https://tdg-api.onrender.com/api/v1/adm/token',
+        url: 'https://thedhobighat.co.in/api/v1/adm/token',
         method: 'get',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('jwt_refresh')}`
@@ -39,7 +39,7 @@ function Profile() {
   const updateFormDataSave = async () => {
     try {
       const req = {
-        url: `https://tdg-api.onrender.com/api/v1/adm/change-credentials`,
+        url: `https://thedhobighat.co.in/api/v1/adm/change-credentials`,
         method: 'post',
         data: updateFormDataState,
         headers: {

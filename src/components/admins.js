@@ -15,7 +15,7 @@ function Employees() {
     try {
       console.log('getting new token')
       res = await axios({
-        url: 'https://tdg-api.onrender.com/api/v1/adm/token',
+        url: 'https://thedhobighat.co.in/api/v1/adm/token',
         method: 'get',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('jwt_refresh')}`
@@ -36,7 +36,7 @@ function Employees() {
     try {
       setIsLoadingState(true);
       const req = {
-        url: 'https://tdg-api.onrender.com/api/v1/adm/admins',
+        url: 'https://thedhobighat.co.in/api/v1/adm/admins',
         method: 'get',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('jwt')}`
@@ -66,7 +66,7 @@ function Employees() {
     try {
       if (window.confirm('Are you sure you want to delete this item from the database?')) {
         var req = {
-          url: `https://tdg-api.onrender.com/api/v1/adm/deregister?id=${id}&email=${email}`,
+          url: `https://thedhobighat.co.in/api/v1/adm/deregister?id=${id}&email=${email}`,
           method: 'post',
           data: {
             sudo: require('buffer').Buffer.from(window.prompt('Enter superuser token'), 'utf8').toString('hex')
@@ -107,7 +107,7 @@ function Employees() {
     try {
       console.log(newFormDataState);
       const req = {
-        url: `https://tdg-api.onrender.com/api/v1/adm/register`,
+        url: `https://thedhobighat.co.in/api/v1/adm/register`,
         method: 'post',
         data: {
           ...newFormDataState,
@@ -193,7 +193,7 @@ function Employees() {
       setIsLoadingState(true);
 
       const req = {
-        url: 'https://tdg-api.onrender.com/api/v1/adm/admins',
+        url: 'https://thedhobighat.co.in/api/v1/adm/admins',
         method: 'get',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('jwt')}`
