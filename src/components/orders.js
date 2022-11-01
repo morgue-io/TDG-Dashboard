@@ -66,27 +66,24 @@ function Orders() {
   const [updateFormDataState, setUpdateFormDataState] = useState({});
   const [updateFormViewState, setUpdateFormViewState] = useState(false); // must be falsed
 
-  function isValidJSON(text) {
-    try {
-      const x = JSON.parse(text);
-      return x;
-    } catch {
-      return false;
-    }
-  }
-
   const handleUpdateFormChange = (event) => {
-    if (event.target.name === 'status') {
-      if (isValidJSON(event.target.value))
-        setUpdateFormDataState({
-          ...updateFormDataState,
-          [event.target.name]: isValidJSON(event.target.value)
-        });
-    } else {
-      setUpdateFormDataState({
+    if (event.target.name === 'processing_state') {
+      const upd = {
         ...updateFormDataState,
-        [event.target.name]: event.target.value
-      });
+        status: {
+          ...updateFormDataState.status,
+          processing: {
+            state: event.target.value === 'TRUE' ? true : false,
+            time:
+              event.target.value === 'TRUE' ?
+                new Date().toLocaleString("en-IN", { timeZone: 'Asia/Kolkata' })
+                : null
+          }
+        }
+      };
+      setUpdateFormDataState(upd);
+      document.getElementById('processing_state_str').value =
+        `${upd.status.processing.state} ➜ ${upd.status.processing.time}`
     }
   };
 
@@ -126,15 +123,42 @@ function Orders() {
           <br />
           <form>
             <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>Order ID</span></div>
-            <input type='text' onChange={handleUpdateFormChange} name='_id' value={item._id} style={{ width: '100%', marginTop: '3px', resize: 'vertical', height: '20px', fontFamily: 'Fira Mono' }} disabled /><br /><br />
+            <input type='text' value={item._id} style={{ width: '100%', marginTop: '3px', resize: 'vertical', height: '20px', fontFamily: 'Fira Mono' }} disabled /><br /><br />
             <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>Customer ID</span></div>
-            <input type='text' onChange={handleUpdateFormChange} value={item.customer} name='customer' style={{ width: '100%', marginTop: '3px', resize: 'vertical', height: '20px', fontFamily: 'Fira Mono' }} disabled /><br /><br />
+            <input type='text' value={item.customer_id} style={{ width: '100%', marginTop: '3px', resize: 'vertical', height: '20px', fontFamily: 'Fira Mono' }} disabled /><br /><br />
+            <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>Customer name</span></div>
+            <input type='text' value={item.customer_name} style={{ width: '100%', marginTop: '3px', resize: 'vertical', height: '20px', fontFamily: 'Fira Mono' }} disabled /><br /><br />
+            <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>Customer phone</span></div>
+            <input type='text' value={item.phone} style={{ width: '100%', marginTop: '3px', resize: 'vertical', height: '20px', fontFamily: 'Fira Mono' }} disabled /><br /><br />
             <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>Customer address</span></div>
-            <textarea name='address' onChange={handleUpdateFormChange} style={{ width: '100%', marginTop: '3px', resize: 'vertical', minHeight: '50px', fontFamily: 'Fira Mono' }} defaultValue={item.address} disabled /><br /><br />
+            <textarea style={{ width: '100%', marginTop: '3px', resize: 'vertical', minHeight: '50px', fontFamily: 'Fira Mono' }} defaultValue={item.address} disabled /><br /><br />
+            <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>Order bill</span></div>
+            <input type='text' value={item.bill} name='customer' style={{ width: '100%', marginTop: '3px', resize: 'vertical', height: '20px', fontFamily: 'Fira Mono' }} disabled /><br /><br />
             <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>Todo</span></div>
-            <textarea onChange={handleUpdateFormChange} name='todo' style={{ width: '100%', minHeight: '200px', marginTop: '3px', resize: 'vertical', height: '20px', fontFamily: 'Fira Mono' }} defaultValue={JSON.stringify(item.todo, null, 4)} disabled /><br /><br />
-            <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>Order status</span></div>
-            <textarea onChange={handleUpdateFormChange} name='status' style={{ width: '100%', minHeight: '200px', marginTop: '3px', resize: 'vertical', height: '20px', fontFamily: 'Fira Mono' }} defaultValue={JSON.stringify(item.status, null, 4)} /><br /><br />
+            <textarea name='todo' style={{ width: '100%', minHeight: '200px', marginTop: '3px', resize: 'vertical', height: '20px', fontFamily: 'Fira Mono' }} defaultValue={JSON.stringify(item.todo, null, 4)} disabled /><br /><br />
+
+
+
+            <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>Order Status: Acceptance [State ➜ Timestamp]</span></div>
+            <input type='text' style={{ width: '100%', marginTop: '3px', height: '20px', fontFamily: 'Fira Mono' }} defaultValue={`${item.status.accepted.state} ➜ ${item.status.accepted.time}`} disabled /><br /><br />
+
+            <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>Order Status: Pick-up [State ➜ (Employee ID) ➜ Employee Name ➜ Timestamp]</span></div>
+            <input type='text' style={{ width: '100%', marginTop: '3px', height: '20px', fontFamily: 'Fira Mono' }} defaultValue={`${item.status.picked_up.state} ➜ (${item.status.picked_up.assignee_id}) ➜ ${item.status.picked_up.assignee_name} ➜ ${item.status.picked_up.time}`} disabled /><br /><br />
+
+            <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>Order Status: Processing [State ➜ Timestamp]</span></div>
+            <input type='text' id='processing_state_str' style={{ width: '100%', marginTop: '3px', height: '20px', fontFamily: 'Fira Mono' }} defaultValue={`${item.status.processing.state} ➜ ${item.status.processing.time}`} disabled />
+            <select name='processing_state' value={item.status.processing.state ? `TRUE ${item.status.processing.time}` : 'FALSE'} style={{ width: '100%', marginTop: '3px', resize: 'vertical', height: '25px', fontFamily: 'Fira Mono' }} onChange={handleUpdateFormChange}>
+              <option value='TRUE' style={{ color: 'green', fontWeight: '700' }}>TRUE</option>
+              <option value='FALSE' style={{ color: 'red', fontWeight: '700' }}>FALSE</option>
+            </select>
+            <br /><br />
+
+            <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>Order Status: Delivery [State ➜ (Employee ID) ➜ Employee Name ➜ Timestamp]</span></div>
+            <input type='text' style={{ width: '100%', marginTop: '3px', height: '20px', fontFamily: 'Fira Mono' }} defaultValue={`${item.status.delivered.state} ➜ (${item.status.delivered.assignee_id}) ➜ ${item.status.delivered.assignee_name} ➜ ${item.status.delivered.time}`} disabled /><br /><br />
+
+
+
+
             <div style={{ display: 'flex', flexDirection: 'row' }}>
               <div><button className='db-button button-cancel' onClick={() => { setUpdateFormViewState(false); setUpdateFormDataState({}); }}><b>Cancel</b></button></div>
               <div style={{ flex: '1 1 auto' }} />
@@ -215,14 +239,14 @@ function Orders() {
               <div className='table-row'>
                 <div className='table-cell'>
                   <div className='item-box-flex-row-item'>
-                    <div className='content-font-header-2'>ID:&nbsp;&nbsp;</div>
+                    <div className='content-font-header-2'>Order ID:&nbsp;&nbsp;</div>
                     <div className='content-font-sub-2-mono'>{item._id}</div>
                   </div>
                 </div>
                 <div className='table-cell'>
                   <div className='item-box-flex-row-item'>
                     <div className='content-font-header-2'>Customer ID:&nbsp;&nbsp;</div>
-                    <div className='content-font-sub-2-mono'>{item.customer}</div>
+                    <div className='content-font-sub-2-mono'>{item.customer_id}</div>
                   </div>
                 </div>
               </div>
@@ -231,8 +255,40 @@ function Orders() {
               <div className='table-row'>
                 <div className='table-cell'>
                   <div className='item-box-flex-row-item'>
+                    <div className='content-font-header-2'>Timestamp:&nbsp;&nbsp;</div>
+                    <div className='content-font-sub-2-mono'>{item.status.accepted.time}</div>
+                  </div>
+                </div>
+              </div>
+              <div className='table-row'>
+                <div className='table-cell'>
+                  <div className='item-box-flex-row-item'>
+                    <div className='content-font-header-2'>Customer Name:&nbsp;&nbsp;</div>
+                    <div className='content-font-sub-2-mono'>{item.customer_name}</div>
+                  </div>
+                </div>
+              </div>
+              <div className='table-row'>
+                <div className='table-cell'>
+                  <div className='item-box-flex-row-item'>
+                    <div className='content-font-header-2'>Customer Phone:&nbsp;&nbsp;</div>
+                    <div className='content-font-sub-2-mono'>{item.phone}</div>
+                  </div>
+                </div>
+              </div>
+              <div className='table-row'>
+                <div className='table-cell'>
+                  <div className='item-box-flex-row-item'>
                     <div className='content-font-header-2'>Address:&nbsp;&nbsp;</div>
                     <div className='content-font-sub-2-mono'>{item.address}</div>
+                  </div>
+                </div>
+              </div>
+              <div className='table-row'>
+                <div className='table-cell'>
+                  <div className='item-box-flex-row-item'>
+                    <div className='content-font-header-2'>Bill:&nbsp;&nbsp;</div>
+                    <div className='content-font-sub-2-mono'>{item.bill}</div>
                   </div>
                 </div>
               </div>

@@ -65,16 +65,29 @@ function Billboard() {
   const [updateFormDataState, setUpdateFormDataState] = useState({});
   const [updateFormViewState, setUpdateFormViewState] = useState(false); // must be falsed
 
-  function isValidJSON(text) {
-    try {
-      const x = JSON.parse(text);
-      return x;
-    } catch {
-      return false;
+  const handleUpdateFormalWash = (event) => setUpdateFormDataState({
+    ...updateFormDataState,
+    formal_wash: {
+      ...updateFormDataState.formal_wash,
+      [event.target.name]: parseInt(event.target.value)
     }
-  };
+  });
 
-  const handleUpdateFormChange = (event) => setUpdateFormDataState(isValidJSON(event.target.value) ? JSON.parse(event.target.value) : null);
+  const handleUpdateDryWash = (event) => setUpdateFormDataState({
+    ...updateFormDataState,
+    dry_wash: {
+      ...updateFormDataState.dry_wash,
+      [event.target.name]: parseInt(event.target.value)
+    }
+  });
+
+  const handleUpdateSteamIron = (event) => setUpdateFormDataState({
+    ...updateFormDataState,
+    steam_iron: {
+      ...updateFormDataState.steam_iron,
+      [event.target.name]: parseInt(event.target.value)
+    }
+  });
 
   const updateFormDataSave = async () => {
     try {
@@ -109,11 +122,55 @@ function Billboard() {
       <div id='form-sub-root'>
         <div id='all-treks-form-flex'>
           <div style={{ position: 'absolute', top: '0px', right: '0px' }}><button className='db-button button-cancel' style={{ width: '8px' }} onClick={() => { setUpdateFormViewState(false); }}><b>X</b></button></div>
-          <div style={{ textAlign: 'left' }}><span style={{ fontSize: '25px', fontFamily: 'Montserrat' }}><b>Billboard</b> form view:</span></div>
+          <div style={{ textAlign: 'left' }}><span style={{ fontSize: '25px', fontFamily: 'Montserrat' }}><b>Billboard</b> rate view (all values in ₹):</span></div>
           <br />
           <form>
-            <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>Billboard object</span></div>
-            <textarea onChange={handleUpdateFormChange} name='billboard' style={{ width: '100%', minHeight: '500px', marginTop: '3px', resize: 'vertical', fontFamily: 'Fira Mono' }} defaultValue={JSON.stringify(item, null, 4)} /><br /><br />
+
+            <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>FormalWash.Blazer</span></div>
+            <input name='blazer' type='text' onChange={handleUpdateFormalWash} value={item.formal_wash.blazer} style={{ width: '100%', marginTop: '3px', resize: 'vertical', height: '20px', fontFamily: 'Fira Mono' }} /><br /><br />
+            <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>FormalWash.ShirtAndTshirt</span></div>
+            <input name='shirt_and_tshirt' type='text' onChange={handleUpdateFormalWash} value={item.formal_wash.shirt_and_tshirt} style={{ width: '100%', marginTop: '3px', resize: 'vertical', height: '20px', fontFamily: 'Fira Mono' }} /><br /><br />
+            <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>FormalWash.PantAndTrousers</span></div>
+            <input name='pant_and_trousers' type='text' onChange={handleUpdateFormalWash} value={item.formal_wash.pant_and_trousers} style={{ width: '100%', marginTop: '3px', resize: 'vertical', height: '20px', fontFamily: 'Fira Mono' }} /><br /><br />
+            <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>FormalWash.Saree</span></div>
+            <input name='saree' type='text' onChange={handleUpdateFormalWash} value={item.formal_wash.saree} style={{ width: '100%', marginTop: '3px', resize: 'vertical', height: '20px', fontFamily: 'Fira Mono' }} /><br /><br />
+            <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>FormalWash.LadiesUpper</span></div>
+            <input name='ladies_upper' type='text' onChange={handleUpdateFormalWash} value={item.formal_wash.ladies_upper} style={{ width: '100%', marginTop: '3px', resize: 'vertical', height: '20px', fontFamily: 'Fira Mono' }} /><br /><br />
+            <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>FormalWash.LadiesLower</span></div>
+            <input name='ladies_lower' type='text' onChange={handleUpdateFormalWash} value={item.formal_wash.ladies_lower} style={{ width: '100%', marginTop: '3px', resize: 'vertical', height: '20px', fontFamily: 'Fira Mono' }} /><br /><br />
+            <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>FormalWash.ClothsAndOthers</span></div>
+            <input name='cloths_and_others' type='text' onChange={handleUpdateFormalWash} value={item.formal_wash.cloths_and_others} style={{ width: '100%', marginTop: '3px', resize: 'vertical', height: '20px', fontFamily: 'Fira Mono' }} /><br /><br />
+
+            <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>DryWash.Blazer</span></div>
+            <input name='blazer' type='text' onChange={handleUpdateDryWash} value={item.dry_wash.blazer} style={{ width: '100%', marginTop: '3px', resize: 'vertical', height: '20px', fontFamily: 'Fira Mono' }} /><br /><br />
+            <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>DryWash.ShirtAndTshirt</span></div>
+            <input name='shirt_and_tshirt' type='text' onChange={handleUpdateDryWash} value={item.dry_wash.shirt_and_tshirt} style={{ width: '100%', marginTop: '3px', resize: 'vertical', height: '20px', fontFamily: 'Fira Mono' }} /><br /><br />
+            <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>DryWash.PantAndTrousers</span></div>
+            <input name='pant_and_trousers' type='text' onChange={handleUpdateDryWash} value={item.dry_wash.pant_and_trousers} style={{ width: '100%', marginTop: '3px', resize: 'vertical', height: '20px', fontFamily: 'Fira Mono' }} /><br /><br />
+            <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>DryWash.Saree</span></div>
+            <input name='saree' type='text' onChange={handleUpdateDryWash} value={item.dry_wash.saree} style={{ width: '100%', marginTop: '3px', resize: 'vertical', height: '20px', fontFamily: 'Fira Mono' }} /><br /><br />
+            <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>DryWash.LadiesUpper</span></div>
+            <input name='ladies_upper' type='text' onChange={handleUpdateDryWash} value={item.dry_wash.ladies_upper} style={{ width: '100%', marginTop: '3px', resize: 'vertical', height: '20px', fontFamily: 'Fira Mono' }} /><br /><br />
+            <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>DryWash.LadiesLower</span></div>
+            <input name='ladies_lower' type='text' onChange={handleUpdateDryWash} value={item.dry_wash.ladies_lower} style={{ width: '100%', marginTop: '3px', resize: 'vertical', height: '20px', fontFamily: 'Fira Mono' }} /><br /><br />
+            <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>DryWash.ClothsAndOthers</span></div>
+            <input name='cloths_and_others' type='text' onChange={handleUpdateDryWash} value={item.dry_wash.cloths_and_others} style={{ width: '100%', marginTop: '3px', resize: 'vertical', height: '20px', fontFamily: 'Fira Mono' }} /><br /><br />
+
+            <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>SteamIron.Blazer</span></div>
+            <input name='blazer' type='text' onChange={handleUpdateSteamIron} value={item.steam_iron.blazer} style={{ width: '100%', marginTop: '3px', resize: 'vertical', height: '20px', fontFamily: 'Fira Mono' }} /><br /><br />
+            <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>SteamIron.ShirtAndTshirt</span></div>
+            <input name='shirt_and_tshirt' type='text' onChange={handleUpdateSteamIron} value={item.steam_iron.shirt_and_tshirt} style={{ width: '100%', marginTop: '3px', resize: 'vertical', height: '20px', fontFamily: 'Fira Mono' }} /><br /><br />
+            <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>SteamIron.PantAndTrousers</span></div>
+            <input name='pant_and_trousers' type='text' onChange={handleUpdateSteamIron} value={item.steam_iron.pant_and_trousers} style={{ width: '100%', marginTop: '3px', resize: 'vertical', height: '20px', fontFamily: 'Fira Mono' }} /><br /><br />
+            <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>SteamIron.Saree</span></div>
+            <input name='saree' type='text' onChange={handleUpdateSteamIron} value={item.steam_iron.saree} style={{ width: '100%', marginTop: '3px', resize: 'vertical', height: '20px', fontFamily: 'Fira Mono' }} /><br /><br />
+            <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>SteamIron.LadiesUpper</span></div>
+            <input name='ladies_upper' type='text' onChange={handleUpdateSteamIron} value={item.steam_iron.ladies_upper} style={{ width: '100%', marginTop: '3px', resize: 'vertical', height: '20px', fontFamily: 'Fira Mono' }} /><br /><br />
+            <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>SteamIron.LadiesLower</span></div>
+            <input name='ladies_lower' type='text' onChange={handleUpdateSteamIron} value={item.steam_iron.ladies_lower} style={{ width: '100%', marginTop: '3px', resize: 'vertical', height: '20px', fontFamily: 'Fira Mono' }} /><br /><br />
+            <div style={{ textAlign: 'left' }}><span style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: '500' }}>SteamIron.ClothsAndOthers</span></div>
+            <input name='cloths_and_others' type='text' onChange={handleUpdateSteamIron} value={item.steam_iron.cloths_and_others} style={{ width: '100%', marginTop: '3px', resize: 'vertical', height: '20px', fontFamily: 'Fira Mono' }} /><br /><br />
+
             <div style={{ display: 'flex', flexDirection: 'row' }}>
               <div><button className='db-button button-cancel' onClick={() => { setUpdateFormViewState(false); setUpdateFormDataState(item); }}><b>Cancel</b></button></div>
               <div style={{ flex: '1 1 auto' }} />
@@ -194,7 +251,7 @@ function Billboard() {
               <div className='table-row'>
                 <div className='table-cell'>
                   <div className='item-box-flex-row-item'>
-                    <div className='content-font-header-2'>Object&nbsp;ID:&nbsp;&nbsp;</div><br />
+                    <div className='content-font-header-2'>Billboard&nbsp;&nbsp;</div><br />
                     <div className='content-font-sub-2-mono'>{JSON.stringify(item, null, 4)}</div>
                   </div>
                 </div>
